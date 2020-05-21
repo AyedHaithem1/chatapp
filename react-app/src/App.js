@@ -22,7 +22,7 @@ import axios from "axios";
 /**
  * Fetches socket server URL from env
  */
-const SOCKET_URI = process.env.REACT_APP_SERVER_URI;
+const SOCKET_URI = "http://40.118.103.217:8002";
 
 /**
  * App Component
