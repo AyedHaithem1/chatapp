@@ -6,9 +6,20 @@
   vars:
       NODEJS_VERSION: "10"
       ansible_distribution_release: "xenial" #trusty
-  #become: yes
-  become_user: ayedhaithem1
+  become: yes
+  #become_user: ayedhaithem1
   tasks:
+      - name: "Install forever (to run Node.js app)."
+        npm: name=forever global=yes state=present
+
+      - name: "Install http-server."
+        npm: name=http-server global=yes state=present
+
+      - name: "Check list of Node.js apps running."
+        command: forever list
+        register: forever_list
+        changed_when: false
+
       - name : "git clone"
         git:
           repo: https://github.com/AyedHaithem1/chatapp.git
@@ -23,3 +34,13 @@
       - name: "Installing dependecy for front-end"
         npm :
           path: /home/ayedhaithem1/chatapp/react-app
+      
+      - name: "Start backend."
+        command: forever start /home/ayedhaithem1/chatapp/backend/server.js
+        when: "forever_list.stdout.find('/home/ayedhaithem1/chatapp/backend/server.js') == -1"
+
+      - name: build front
+        shell: chdir=/home/ayedhaithem1/chatapp/react-app npm build
+      - name: start front
+        shell: http-server /home/ayedhaithem1/chatapp/react-app/dist
+      
