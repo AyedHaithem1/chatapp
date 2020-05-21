@@ -40,7 +40,10 @@
         when: "forever_list.stdout.find('/home/ayedhaithem1/chatapp/backend/server.js') == -1"
 
       - name: build front
-        shell: chdir=/home/ayedhaithem1/chatapp/react-app npm build
+        shell:
+          cmd: npm run-script build
+          chdir: /home/ayedhaithem1/chatapp/react-app
+
       - name: start front
-        shell: http-server /home/ayedhaithem1/chatapp/react-app/dist
+        shell: http-server /home/ayedhaithem1/chatapp/react-app/build > http.log 2>&1 &
       
