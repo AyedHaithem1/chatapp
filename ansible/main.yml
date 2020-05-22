@@ -45,5 +45,4 @@
           chdir: /home/ayedhaithem1/chatapp/react-app
 
       - name: start front
-        shell: http-server /home/ayedhaithem1/chatapp/react-app/build > http.log 2>&1 &
-      
+        shell: lighttpd -f /home/ayedhaithem1/chatapp/react-app/lighttpd.conf
