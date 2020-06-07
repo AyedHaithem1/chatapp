@@ -2,13 +2,24 @@
   hosts: 
     - prod_azure
   gather_facts: yes
-  remote_user: ayedhaithem1
+  remote_user: tnadmin
   vars:
       NODEJS_VERSION: "10"
       ansible_distribution_release: "xenial" #trusty
   become: yes
-  #become_user: ayedhaithem1
+  #become_user: tnadmin
   tasks:
+      - name: Install git
+        apt:
+          name: git
+          state: present
+          update_cache: yes
+
+      - name: install lighttpd
+        apt:
+          name: lighttpd
+          state: present
+
       - name: "Install forever (to run Node.js app)."
         npm: name=forever global=yes state=present
 
@@ -23,26 +34,26 @@
       - name : "git clone"
         git:
           repo: https://github.com/AyedHaithem1/chatapp.git
-          dest: /home/ayedhaithem1/chatapp
+          dest: /home/tnadmin/chatapp
           version: master
           force: yes
       
       - name: "Installing dependecy for back-end"
         npm :
-          path: /home/ayedhaithem1/chatapp/backend
+          path: /home/tnadmin/chatapp/backend
       
       - name: "Installing dependecy for front-end"
         npm :
-          path: /home/ayedhaithem1/chatapp/react-app
+          path: /home/tnadmin/chatapp/react-app
       
       - name: "Start backend."
-        command: forever start /home/ayedhaithem1/chatapp/backend/server.js
-        when: "forever_list.stdout.find('/home/ayedhaithem1/chatapp/backend/server.js') == -1"
+        command: forever start /home/tnadmin/chatapp/backend/server.js
+        when: "forever_list.stdout.find('/home/tnadmin/chatapp/backend/server.js') == -1"
 
       - name: build front
         shell:
           cmd: npm run-script build
-          chdir: /home/ayedhaithem1/chatapp/react-app
+          chdir: /home/tnadmin/chatapp/react-app
 
       - name: start front
-        shell: lighttpd -f /home/ayedhaithem1/chatapp/react-app/lighttpd.conf
+        shell: lighttpd -f /home/tnadmin/chatapp/react-app/lighttpd.conf
