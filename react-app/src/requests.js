@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_ROOT = "http://40.118.103.217:8002"
+const API_ROOT = "http://23.100.12.139:8002"
 
 axios.defaults.baseURL = API_ROOT;
 

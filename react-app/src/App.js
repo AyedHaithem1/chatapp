@@ -22,7 +22,7 @@ import axios from "axios";
 /**
  * Fetches socket server URL from env
  */
-const SOCKET_URI = "http://40.118.103.217:8002";
+const SOCKET_URI = "http://23.100.12.139:8002";
 
 /**
  * App Component
